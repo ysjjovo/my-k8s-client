@@ -40,6 +40,7 @@ public class DeployStub {
         }
         return client.apps().deployments().inNamespace(d.getNamespace()).createOrReplace(builder.endSpec().endTemplate().endSpec().build());
     }
+
     public boolean del(String ns, String name){
         return client.apps().deployments().inNamespace(ns).withName(name).delete();
     }
@@ -49,6 +50,12 @@ public class DeployStub {
     }
     public Deployment get(String ns, String name){
         return client.apps().deployments().inNamespace(ns).withName(name).get();
+    }
+    public Deployment scale(String ns, String name, Integer replicas){
+        return client.apps().deployments().inNamespace(ns).withName(name).scale(replicas, true);
+    }
+    public Deployment updateImage(String ns, String name, String image){
+        return client.apps().deployments().inNamespace(ns).withName(name).rolling().updateImage(image);
     }
 }
 

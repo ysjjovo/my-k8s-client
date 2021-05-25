@@ -30,7 +30,7 @@ public class BaseTest {
     static Ns ns = new Ns().setName(namespaceName).setLabels(labels);
     @BeforeAll
     static void setUp(){
-        System.setProperty(Config.KUBERNETES_KUBECONFIG_FILE, "/Users/xxx/projects/my-k8s-client/.kubeconfig");
+        System.setProperty(Config.KUBERNETES_KUBECONFIG_FILE, "/Users/Lin/projects/my-k8s-client/.kubeconfig");
         client = new DefaultKubernetesClient();
         namespaceStub = new NamespaceStub(client);
         serviceStub = new ServiceStub(client);
@@ -39,6 +39,6 @@ public class BaseTest {
     }
     @AfterAll
     static void destroy(){
-        assertTrue(namespaceStub.del(namespaceName));
+//        assertTrue(namespaceStub.del(namespaceName));
     }
 }

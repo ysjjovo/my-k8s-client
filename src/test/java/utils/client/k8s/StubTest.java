@@ -42,7 +42,11 @@ public class StubTest extends BaseTest {
         d.setReplicas(2);
         Deployment updated = deployStub.createOrReplace(d, c);
         assertEquals(2, updated.getSpec().getReplicas());
+        Deployment scale = deployStub.scale(namespaceName, deployName, 3);
+        assertEquals(3, scale.getSpec().getReplicas());
+        String image = "nginx:my-latest";
+        Deployment updateImaged = deployStub.updateImage(namespaceName, deployName, image);
+        assertEquals(image, updateImaged.getSpec().getTemplate().getSpec().getContainers().get(0).getImage());
         assertTrue(deployStub.del(namespaceName, deployName));
-
     }
 }
