@@ -1,5 +1,6 @@
 package utils.client.k8s;
 
+import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import utils.client.k8s.model.Container;
 import utils.client.k8s.model.Deploy;
 import io.fabric8.kubernetes.api.model.*;
@@ -8,8 +9,8 @@ import io.fabric8.kubernetes.client.KubernetesClient;
 
 public class DeployStub {
     private KubernetesClient client;
-    public DeployStub(KubernetesClient client){
-        this.client = client;
+    public DeployStub(){
+        this.client = K8sClient.getInstance();
     }
     public Deployment createOrReplace(Deploy d, utils.client.k8s.model.Container...c){
         PodTemplateSpecFluent.SpecNested<DeploymentSpecFluent.TemplateNested<DeploymentFluent.SpecNested<DeploymentBuilder>>> builder = new DeploymentBuilder()

@@ -1,5 +1,7 @@
 package utils.client.k8s.model;
 
+import utils.client.enums.SvcType;
+
 import java.util.Map;
 
 public class Svc {

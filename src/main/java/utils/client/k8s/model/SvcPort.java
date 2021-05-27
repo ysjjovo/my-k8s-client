@@ -1,5 +1,7 @@
 package utils.client.k8s.model;
 
+import utils.client.enums.Proto;
+
 public class SvcPort {
     private String name;
     private Proto protocol;

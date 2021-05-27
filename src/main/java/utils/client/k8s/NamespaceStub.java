@@ -8,8 +8,8 @@ import io.fabric8.kubernetes.client.KubernetesClient;
 
 public class NamespaceStub {
     private KubernetesClient client;
-    public NamespaceStub(KubernetesClient client){
-        this.client = client;
+    public NamespaceStub(){
+        this.client = K8sClient.getInstance();
     }
     public Namespace createOrReplace(Ns ns){
        return client.namespaces().createOrReplace(new NamespaceBuilder()

@@ -1,15 +1,24 @@
 package utils.client.k8s;
 
 import io.fabric8.kubernetes.api.model.apps.Deployment;
+import io.fabric8.kubernetes.client.Config;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import utils.client.enums.ImagePullPolicy;
+import utils.client.enums.Proto;
+import utils.client.enums.SvcType;
 import utils.client.k8s.model.*;
 import io.fabric8.kubernetes.api.model.Namespace;
 import io.fabric8.kubernetes.api.model.Service;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class StubTest extends BaseTest {
+public class K8sTest {
     @Test
     void namespaceTest(){
         Namespace s = namespaceStub.get(namespaceName);
@@ -48,5 +57,32 @@ public class StubTest extends BaseTest {
         Deployment updateImaged = deployStub.updateImage(namespaceName, deployName, image);
         assertEquals(image, updateImaged.getSpec().getTemplate().getSpec().getContainers().get(0).getImage());
         assertTrue(deployStub.del(namespaceName, deployName));
+    }
+
+    static NamespaceStub namespaceStub;
+    static ServiceStub serviceStub;
+    static DeployStub deployStub;
+    static String namespaceName = "test";
+    static String svcName = "test-svc";
+    static String deployName = "test-deploy";
+    static String k1 = "k1";
+    static String v1 = "v1";
+    static String v2 = "v2";
+    static Map<String,String> labels= new HashMap<>();
+    static {
+        labels.put(k1, v1);
+    }
+    static Ns ns = new Ns().setName(namespaceName).setLabels(labels);
+    @BeforeAll
+    static void setUp(){
+        System.setProperty(Config.KUBERNETES_KUBECONFIG_FILE, ".kubeconfig");
+        namespaceStub = new NamespaceStub();
+        serviceStub = new ServiceStub();
+        deployStub = new DeployStub();
+        namespaceStub.createOrReplace(ns);
+    }
+    @AfterAll
+    static void destroy(){
+        assertTrue(namespaceStub.del(namespaceName));
     }
 }

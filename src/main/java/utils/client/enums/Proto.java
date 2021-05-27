@@ -1,4 +1,4 @@
-package utils.client.k8s.model;
+package utils.client.enums;
 
 public enum Proto {
     TCP,UDP,

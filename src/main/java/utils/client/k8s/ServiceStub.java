@@ -7,8 +7,8 @@ import io.fabric8.kubernetes.client.KubernetesClient;
 
 public class ServiceStub {
     private KubernetesClient client;
-    public ServiceStub(KubernetesClient client){
-        this.client = client;
+    public ServiceStub(){
+        this.client = K8sClient.getInstance();
     }
     public Service createOrReplace(Svc svc, SvcPort...ports){
         ServiceFluent.SpecNested<ServiceBuilder> builder = new ServiceBuilder()

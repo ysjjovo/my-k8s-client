@@ -1,5 +1,7 @@
 package utils.client.k8s.model;
 
+import utils.client.enums.ImagePullPolicy;
+
 public class Container {
     private String name;
     private String image;

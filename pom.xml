@@ -17,6 +17,27 @@
             <version>5.3.1</version>
         </dependency>
         <dependency>
+            <groupId>me.snowdrop</groupId>
+            <artifactId>istio-client</artifactId>
+            <version>1.7.7.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.docker-java</groupId>
+            <artifactId>docker-java</artifactId>
+            <version>3.2.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.docker-java</groupId>
+            <artifactId>docker-java-transport-httpclient5</artifactId>
+            <version>3.2.8</version>
+        </dependency>
+
+        <!--        <dependency>-->
+<!--            <groupId>com.spotify</groupId>-->
+<!--            <artifactId>docker-client</artifactId>-->
+<!--            <version>8.16.0</version>-->
+<!--        </dependency>-->
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>5.7.1</version>
