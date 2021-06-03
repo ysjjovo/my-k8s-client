@@ -30,8 +30,8 @@ public class K8sTest {
     @Test
     void serviceTest(){
         labels.put(k1, v1);
-        Svc svc = new Svc().setNamespace(namespaceName).setName(svcName).setType(SvcType.ClusterIP).setLabels(labels).setSelector(labels);
-        SvcPort port =new SvcPort().setName("http").setPort(80).setTargetPort(8080).setProtocol(Proto.TCP);
+        Svc svc = newSvc();
+        SvcPort port = newSvcPort();
         Service inserted = serviceStub.createOrReplace(svc, port);
         assertEquals(svc.getName(), inserted.getMetadata().getName());
         svc.setType(SvcType.NodePort);
@@ -40,12 +40,20 @@ public class K8sTest {
         assertEquals(svc.getTypeStr(), updated.getSpec().getType());
         assertTrue(serviceStub.del(namespaceName, svcName));
     }
+
+    public static SvcPort newSvcPort() {
+        return new SvcPort().setName("http").setPort(80).setTargetPort(8080).setProtocol(Proto.TCP);
+    }
+
+    public static Svc newSvc() {
+        return new Svc().setNamespace(namespaceName).setName(svcName).setType(SvcType.ClusterIP).setLabels(labels).setSelector(labels);
+    }
+
     @Test
     void deployTest(){
         labels.put(k1, v1);
-        Deploy d = new Deploy().setNamespace(namespaceName).setName(deployName).setLabels(labels).setReplicas(1)
-                .setSelector(labels);
-        Container c = new Container().setName("app").setImage("nginx").setPort(80).setPullPolicy(ImagePullPolicy.IfNotPresent);
+        Deploy d = newDeploy();
+        Container c = newContainer();
         Deployment inserted = deployStub.createOrReplace(d, c);
         assertEquals(d.getName(), inserted.getMetadata().getName());
         d.setReplicas(2);
@@ -59,12 +67,21 @@ public class K8sTest {
         assertTrue(deployStub.del(namespaceName, deployName));
     }
 
+    public static Deploy newDeploy() {
+        return new Deploy().setNamespace(namespaceName).setName(deployName).setLabels(labels).setReplicas(1)
+                .setSelector(labels);
+    }
+
+    public static Container newContainer() {
+        return new Container().setName("app").setImage("nginx").setPort(80).setPullPolicy(ImagePullPolicy.IfNotPresent);
+    }
+
     static NamespaceStub namespaceStub;
     static ServiceStub serviceStub;
     static DeployStub deployStub;
     static String namespaceName = "test";
-    static String svcName = "test-svc";
-    static String deployName = "test-deploy";
+    static String svcName = "test";
+    static String deployName = "test";
     static String k1 = "k1";
     static String v1 = "v1";
     static String v2 = "v2";
@@ -75,7 +92,7 @@ public class K8sTest {
     static Ns ns = new Ns().setName(namespaceName).setLabels(labels);
     @BeforeAll
     static void setUp(){
-        System.setProperty(Config.KUBERNETES_KUBECONFIG_FILE, ".kubeconfig");
+        System.setProperty(Config.KUBERNETES_KUBECONFIG_FILE, System.getProperty("user.home") + "/.kube/config");
         namespaceStub = new NamespaceStub();
         serviceStub = new ServiceStub();
         deployStub = new DeployStub();

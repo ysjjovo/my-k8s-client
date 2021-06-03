@@ -5,6 +5,7 @@ import io.fabric8.kubernetes.client.KubernetesClient;
 
 public class K8sClient {
     private volatile static KubernetesClient instance;
+
     public static KubernetesClient getInstance(){
         if(instance == null){
             synchronized (K8sClient.class){

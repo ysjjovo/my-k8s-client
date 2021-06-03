@@ -1,6 +1,5 @@
 package utils.client.k8s;
 
-import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import utils.client.k8s.model.Container;
 import utils.client.k8s.model.Deploy;
 import io.fabric8.kubernetes.api.model.*;
